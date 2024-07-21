@@ -1,6 +1,9 @@
-FROM openjdk:11
+FROM python:3.9-slim
+
+WORKDIR /app
+COPY app.py /app/
+COPY requirements.txt /app/
+
+RUN pip install --no-cache-dir -r requirements.txt
 EXPOSE 5002
-ENV PORT 5002
-VOLUME /tmp
-COPY target/*.jar app.jar
-ENTRYPOINT ["java","-jar","/app.jar"]
+CMD ["python3", "app.py"]
