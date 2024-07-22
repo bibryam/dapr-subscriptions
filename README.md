@@ -53,26 +53,13 @@ go mod download
 go build
 ```
 
-## Running with Dapr
-
-To run all applications using Dapr multi-app run:
-
-```bash
-dapr run -f dapr.yaml
-```
-
-## Deploying into Kubernetes with Skaffold
-
-### Install Minikube/Kind
-
-
+## Running with Kubernetes, Skaffold, and Diagrid Conductor
 
 ### Install Kubernetes, Dapr 1.14 and Diagrid Conductor (optional)
 Follow the steps in the [quickstart guide](https://docs.diagrid.io/conductor/getting-started/quickstart/) to install Kubernetes and Conductor by applying your unique cluster connection token:
 ```bash
 kubectl apply -f "YOUR_UNIQUE_CLUSTER_CONNECTION_TOKEN"
 ```
-
 
 ### Install Redis
 Install Redis using Helm:
@@ -94,6 +81,15 @@ skaffold dev
 ```
 
 This command will build the Docker images, deploy the applications, and watch for changes.
+
+
+## Running with Dapr Multi-App Run CLI
+
+To run all applications using Dapr multi-app run:
+
+```bash
+dapr run -f dapr.yaml
+```
 
 ## Testing the Application
 
