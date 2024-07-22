@@ -3,7 +3,7 @@
 ## Overview
 This project demonstrates the use of Dapr for pub/sub messaging with multiple subscribers using different ways to subscribe and different programming languages. 
 
-![Dapr Subscriptions Example](dapr-skaffold.png)
+![Demo application visualized in Diagrid Conductor](Diagrid-Conductor-App-Map.png)
 
 ## Prerequisites
 
@@ -111,12 +111,25 @@ Or use the Dapr CLI to publish a message:
 dapr publish --publish-app-id publisher --pubsub pubsub --topic orders --data '{"orderId": "123"}'
 ```
 
-Or use test.rest file from your IDE.
+Or use `test.rest` file from your IDE.
+
+## Monitoring the App with Diagrid Conductor
 
 
-## Observing Subscribers
+1. **Subscription Overview**: View all subscription types (declarative, programmatic, and streaming) in one consolidated dashboard.
 
-Check the logs of each subscriber to see the received messages.
+![Dapr Subscriptions in Diagrid Conductor](Diagrid-Conductor-Subscriptions.png)
+
+2. **Component Metrics**: Analyze detailed metrics for each subscriber application:
+    - Message processing and error rates
+    - Latency statistics
+
+3. **Application Networking**: Examine networking metrics for each application:
+    - Incoming and outgoing traffic rates
+    - Network latency
+
+4. **To view received messages and application behavior**: check the logs from skaffold or dapr CLI.
+
 
 ## Local Development Workflow
 
