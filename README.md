@@ -1,102 +1,129 @@
-# Dapr Subscriber Types Example
-
+# Dapr Subscriptions Example
 
 ## Overview
-This example demonstrates how to perform local development with [Dapr](https://dapr.io/), [Skaffold](https://skaffold.dev/), and [Diagrid Conductor](https://www.diagrid.io/conductor). It covers:
-- Mocking Dapr client and unit testing applications.
-- Running multiple applications with Dapr multi-app run.
-- Deploying applications to a local Kubernetes cluster with Skaffold, and observing real-time redeployment for application code changes or Dapr CRD changes.
+This project demonstrates the use of Dapr for pub/sub messaging with multiple subscribers using different ways to subscribe and different programming languages. 
 
-![Dapr Skaffold Inner Loops](dapr-skaffold.png)
-
-For a detailed step by step write, check out the blog post walking through these project steps.
+![Dapr Subscriptions Example](dapr-skaffold.png)
 
 ## Prerequisites
 
-### Install Kubernetes
-To install Kubernetes on macOS, use the following commands:
+- [Docker](https://www.docker.com/get-started)
+- [Kubernetes](https://kubernetes.io/docs/setup/)
+- [Dapr](https://docs.dapr.io/getting-started/install-dapr-cli/)
+- [Skaffold](https://skaffold.dev/docs/install/)
+- [Redis](https://redis.io/download) (for local development)
+- [Diagrid Conductor](https://www.diagrid.io/conductor)
+
+## Project Structure
+
+- `publisher/`: Java publisher application
+- `declarative-subscriber/`: JavaScript subscriber using declarative subscriptions
+- `programmatic-subscriber/`: Python subscriber using programmatic subscriptions
+- `streaming-subscriber/`: Go subscriber using streaming subscriptions
+- `common/`: Common resources and configurations
+- `dapr.yaml`: Dapr multi-app run configuration
+- `skaffold.yaml`: Skaffold configuration for deployment
+
+
+
+## Building the Applications
+
+### Publisher (Java)
 ```bash
-brew install minikube
-minikube start
+cd publisher
+mvn clean package
 ```
 
-### Install Dapr and Diagrid Conductor
-Follow the steps in the [quickstart guide](https://docs.diagrid.io/conductor/getting-started/quickstart/) and apply your unique cluster connection token:
+### Declarative Subscriber (JavaScript)
+```bash
+cd declarative-subscriber
+npm install
+```
+
+### Programmatic Subscriber (Python)
+```bash
+cd programmatic-subscriber
+pip install -r requirements.txt
+```
+
+### Streaming Subscriber (Go)
+```bash
+cd streaming-subscriber
+go mod download
+go build
+```
+
+## Running with Dapr
+
+To run all applications using Dapr multi-app run:
+
+```bash
+dapr run -f dapr.yaml
+```
+
+## Deploying into Kubernetes with Skaffold
+
+### Install Minikube/Kind
+
+
+
+### Install Kubernetes, Dapr 1.14 and Diagrid Conductor (optional)
+Follow the steps in the [quickstart guide](https://docs.diagrid.io/conductor/getting-started/quickstart/) to install Kubernetes and Conductor by applying your unique cluster connection token:
 ```bash
 kubectl apply -f "YOUR_UNIQUE_CLUSTER_CONNECTION_TOKEN"
 ```
 
-### Install Skaffold
+
+### Install Redis
+Install Redis using Helm:
+```bash
+helm repo add bitnami https://charts.bitnami.com/bitnami && helm repo update && helm install redis bitnami/redis --set cluster.enabled=false --set replica.replicaCount=0 --set fullnameOverride=dapr-dev-redis
+```
+
+### Install Skaffold (optional)
 To install Skaffold, use the following command:
 ```bash
 brew install skaffold
 ```
 
-### Install Redis
-Install Redis using Helm:
-```bash
-helm repo add bitnami https://charts.bitnami.com/bitnami
-helm repo update
-helm install redis bitnami/redis --set cluster.enabled=false --set replica.replicaCount=0 --set fullnameOverride=dapr-dev-redis
-```
+### Deploy the application
+To deploy the applications to a Kubernetes cluster:
 
-## Build the Application
-This project comprises a Java app that publishes messages to Redis and another Java app that consumes these messages.
-
-Clone the repository:
-```bash
-git clone git@github.com:bibryam/dapr-skaffold.git
-cd dapr-skaffold
-```
-
-Build the Java applications and run unit tests:
-```bash
-mvn clean install
-```
-
-## Run a Single Application
-Use Dapr CLI to run a single application with a sidecar:
-```bash
-dapr run --app-id publisher --app-port 5001 --resources-path ./common/local -- java -jar publisher/target/Publisher-0.0.1-SNAPSHOT.jar
-```
-
-## Run Multiple Applications
-Run both applications at the same time with multi-app run:
-```bash
-dapr run -f dapr.yaml
-```
-
-## Deploy the Applications to Kubernetes
-To deploy the application, run:
 ```bash
 skaffold dev
 ```
 
-## Sync Changes
-Update the application YAML files or modify the Java code followed by a Maven build. The changes will be detected and redeployed automatically.
+This command will build the Docker images, deploy the applications, and watch for changes.
 
-## Test APIs with a Single Request
-Publish a single order by calling the Publisher application:
+## Testing the Application
+
+You can test the publisher by sending a POST request:
+
 ```bash
 curl -X POST http://localhost:5001/pubsub/orders \
 -H "Content-Type: application/json" \
 -d @order.json
 ```
 
-Or use Dapr CLI to publish an order directly to the pubsub:
+Or use the Dapr CLI to publish a message:
+
 ```bash
 dapr publish --publish-app-id publisher --pubsub pubsub --topic orders --data '{"orderId": "123"}'
 ```
 
-## Test APIs with Multiple Requests
+Or use test.rest file from your IDE.
 
-### Install Apache Bench
-```bash
-brew install httpd
-```
 
-### Perform Load Testing
-```bash
-ab -n 100 -c 100 -p order.json -T "application/json" http://localhost:5001/pubsub/orders       
-ab -n 100 -c 100 -p order.json -T "application/json" http://localhost:3501/v1.0/publish/pubsub/orders       
-```
+## Observing Subscribers
+
+Check the logs of each subscriber to see the received messages.
+
+## Local Development Workflow
+
+1. Make changes to the application code or Dapr configurations (for Java, you must rebuild the Jar files).
+2. If using `skaffold dev`, changes will be automatically detected and redeployed.
+3. If using dapr run approach, restart the Dapr multi-app run after making changes.
+
+## Additional Resources
+
+- [Blog Write up](https://www.diagrid.io/blog)

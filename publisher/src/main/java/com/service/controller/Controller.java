@@ -43,13 +43,19 @@ public class Controller {
             // Publish an event/message using Dapr PubSub
             try {
                 int i = order.getOrderId();
-                while (i > 0) {
-                    order.setOrderId(i);
-                    i--;
+                if ( i < 0) {
+                    while (i < 0) {
+                        order.setOrderId(i);
+                        i++;
+                        client.publishEvent(PUBSUB_NAME, "orders", order).block();
+                        logger.info("Publisher published: " + order.getOrderId());
+                        Thread.sleep(100);
+                    }
+                } else {
                     client.publishEvent(PUBSUB_NAME, "orders", order).block();
                     logger.info("Publisher published: " + order.getOrderId());
-                    Thread.sleep(100);
                 }
+
                 return ResponseEntity.ok("SUCCESS");
             } catch (Exception e) {
                 logger.error("Error occurred while publishing order: " + order.getOrderId());
