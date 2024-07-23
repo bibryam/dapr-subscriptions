@@ -3,7 +3,7 @@
 ## Overview
 This project demonstrates the use of Dapr for pub/sub messaging with multiple subscribers using different ways to subscribe and different programming languages. 
 
-![Demo application visualized in Diagrid Conductor](Diagrid-Conductor-App-Map.png)
+![Demo application visualized in Diagrid Conductor](dapr-subscriptions/images/Diagrid-Conductor-App-Map.png)
 
 ## Prerequisites
 
@@ -114,7 +114,7 @@ Or use `test.rest` file from your IDE.
 
 1. **Subscription Overview**: View all subscription types (declarative, programmatic, and streaming) in one consolidated dashboard.
 
-![Dapr Subscriptions in Diagrid Conductor](Diagrid-Conductor-Subscriptions.png)
+![Dapr Subscriptions in Diagrid Conductor](dapr-subscriptions/images/Diagrid-Conductor-Subscriptions.png)
 
 2. **Component Metrics**: Analyze detailed metrics for each subscriber application:
     - Message processing and error rates

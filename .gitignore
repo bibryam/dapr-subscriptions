@@ -28,3 +28,4 @@ node_modules
 hs_err_pid*
 replay_pid*
 *.iml
+/streaming-subscriber/subscriber
