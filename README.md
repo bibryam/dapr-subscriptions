@@ -3,7 +3,7 @@
 ## Overview
 This project demonstrates the use of Dapr for pub/sub messaging with multiple subscribers using different ways to subscribe and different programming languages. 
 
-![Demo application visualized in Diagrid Conductor](dapr-subscriptions/images/Diagrid-Conductor-App-Map.png)
+![Demo application visualized in Diagrid Conductor](images/Diagrid-Conductor-App-Map.png)
 
 ## Prerequisites
 
@@ -11,7 +11,7 @@ This project demonstrates the use of Dapr for pub/sub messaging with multiple su
 - [Kubernetes](https://kubernetes.io/docs/setup/)
 - [Dapr](https://docs.dapr.io/getting-started/install-dapr-cli/)
 - [Skaffold](https://skaffold.dev/docs/install/)
-- [Redis](https://redis.io/download) (for local development)
+- [Redis](https://redis.io/download)
 - [Diagrid Conductor](https://www.diagrid.io/conductor)
 
 ## Project Structure
@@ -56,10 +56,7 @@ go build
 ## Running with Kubernetes, Skaffold, and Diagrid Conductor
 
 ### Install Kubernetes, Dapr 1.14 and Diagrid Conductor (optional)
-Follow the steps in the [quickstart guide](https://docs.diagrid.io/conductor/getting-started/quickstart/) to install Kubernetes and Conductor by applying your unique cluster connection token:
-```bash
-kubectl apply -f "YOUR_UNIQUE_CLUSTER_CONNECTION_TOKEN"
-```
+Follow the steps in the [quickstart guide](https://docs.diagrid.io/conductor/getting-started/quickstart/) to install Kubernetes and Conductor.
 
 ### Install Redis
 Install Redis using Helm:
@@ -112,9 +109,9 @@ Or use `test.rest` file from your IDE.
 ## Monitoring the App with Diagrid Conductor
 
 
-1. **Subscription Overview**: View all subscription types (declarative, programmatic, and streaming) in one consolidated dashboard.
+1. **Subscription Overview**: View all subscription types (declarative, programmatic, and streaming) in one consolidated dashboard in [Conductor](https://conductor.diagrid.io/)
 
-![Dapr Subscriptions in Diagrid Conductor](dapr-subscriptions/images/Diagrid-Conductor-Subscriptions.png)
+![Dapr Subscriptions in Diagrid Conductor](images/Diagrid-Conductor-Subscriptions.png)
 
 2. **Component Metrics**: Analyze detailed metrics for each subscriber application:
     - Message processing and error rates
@@ -135,4 +132,4 @@ Or use `test.rest` file from your IDE.
 
 ## Additional Resources
 
-- [Blog Write up](https://www.diagrid.io/blog)
+- [Blog Post on Dapr Subscriptions](https://www.diagrid.io/blog)
