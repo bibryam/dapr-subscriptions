@@ -29,8 +29,10 @@ def subscribe():
 def orders_subscriber():
     event = from_http(request.headers, request.get_data())
     print('Programmatic Subscriber received: %s' % event.data['orderId'], flush=True)
-    return json.dumps({'success': True}), 200, {
-        'ContentType': 'application/json'}
 
+    # return json.dumps({'success': True}), 200, { 'ContentType': 'application/json'}
+    # Simulate failure by returning HTTP 500
+    return json.dumps({'success': False, 'error': 'Processing failed'}), 500, {
+        'ContentType': 'application/json'}
 
 app.run(port=app_port)

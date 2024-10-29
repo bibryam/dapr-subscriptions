@@ -17,6 +17,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import reactor.core.publisher.Mono;
 import javax.annotation.PostConstruct;
+import java.util.concurrent.CompletableFuture;
 
 @RestController
 public class Controller {
@@ -28,6 +29,10 @@ public class Controller {
     @PostConstruct
     public void init() {
         client = new DaprClientBuilder().build();
+        Order order = new Order();
+        order.setOrderId(-1000);
+        // Run publish in the background
+        CompletableFuture.runAsync(() -> publish(order).subscribe());
     }
 
     // Package-private setter for testing purposes

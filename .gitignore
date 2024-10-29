@@ -29,3 +29,5 @@ hs_err_pid*
 replay_pid*
 *.iml
 /streaming-subscriber/subscriber
+.DS_Store
+*/**/.DS_Store

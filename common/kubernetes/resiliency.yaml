@@ -1,0 +1,21 @@
+apiVersion: dapr.io/v1alpha1
+kind: Resiliency
+metadata:
+  name: myresiliency
+scopes:
+  - programmatic-subscriber
+spec:
+  policies:
+    retries:
+      retry-policy:
+        policy: constant
+        duration: 1s
+        maxRetries: 5
+
+  targets:
+    components:
+      pubsub2:
+        inbound:
+          retry: retry-policy
+        outbound:
+          retry: retry-policy
